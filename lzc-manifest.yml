@@ -1,11 +1,11 @@
 application:
   subdomain: fredy
   multi_instance: false
-  # No public_path: admin credentials are auto-created on first start with a fixed
-  # default admin credentials are auto-created on first start (no env
-  # override available, wiki-go precedent 2026-11-06). Platform entry
-  # authentication stays the first line of defense; rotate the admin
-  # credentials immediately after first login.
+  # No public_path: admin credentials are auto-created on first start with a
+  # fixed default password (no env override available, wiki-go precedent
+  # 2026-11-06). Platform entry authentication stays the first line of
+  # defense; rotate the admin credentials immediately after first login.
+  upstreams:
     - location: /package-licenses/
       backend: file:///lzcapp/pkg/content/licenses/
     - location: /
