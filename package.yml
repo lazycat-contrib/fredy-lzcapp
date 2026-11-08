@@ -1,0 +1,18 @@
+package: community.lazycat.app.fredy
+name: Fredy
+version: 30.2.0
+description: "Self-hosted job aggregator: search classifieds across multiple platforms and get notified about new listings."
+min_os_version: "1.5.0"
+homepage: https://github.com/orangecoding/fredy
+author: orangecoding
+license: "Apache-2.0"
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: Fredy
+    description: "自托管房源/分类信息聚合监控：跨多个平台搜索房源并在新结果出现时通知。"
+  en:
+    name: Fredy
+    description: "Job/classified aggregator that searches multiple platforms and notifies you about new listings."

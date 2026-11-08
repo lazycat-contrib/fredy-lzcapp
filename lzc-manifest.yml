@@ -1,0 +1,43 @@
+application:
+  subdomain: fredy
+  multi_instance: false
+  # No public_path: admin credentials are auto-created on first start with a fixed
+  # default admin credentials are auto-created on first start (no env
+  # override available, wiki-go precedent 2026-11-06). Platform entry
+  # authentication stays the first line of defense; rotate the admin
+  # credentials immediately after first login.
+    - location: /package-licenses/
+      backend: file:///lzcapp/pkg/content/licenses/
+    - location: /
+      backend: http://fredy:9998/
+
+services:
+  fredy:
+    # upstream: ghcr.io/orangecoding/fredy:30.2.0
+    image: ghcr.1ms.run/orangecoding/fredy:30.2.0
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Shanghai
+    binds:
+      # official compose mounts /db (sqlite data) and /conf (config)
+      - /lzcapp/var/mutdata/db:/db
+      - /lzcapp/var/mutdata/conf:/conf
+usage: |
+  Fredy 是一个自托管的信息聚合监控工具（origin 为求职/房源聚合）：
+  配置多个平台的搜索条件后，定期抓取新结果并通过邮件/Telegram/ webhook 等通道通知。
+
+  使用方法：
+  1. 首次打开应用，使用默认管理员账号登录（首启自动创建，凭据见官方 README，
+     https://github.com/orangecoding/fredy#usage）。登录后请立即在设置中修改密码。
+  2. 在 Settings 中添加搜索任务（listboard）并配置通知通道。
+
+  说明：
+  - 首启自动创建的管理员账号使用固定默认口令，且无环境变量覆盖入口
+    （上游 userStorage.js 内置），因此本包未使用 public_path，
+    由平台入口鉴权保护。请务必登录后立即改密。
+  - 上游默认开启匿名使用统计（向 fredy.orange-coding.net 发送遥测），
+    可在应用设置（analytics）中关闭。
+  - 数据（sqlite 与配置）保存在 /lzcapp/var/mutdata，卸载会一并删除。
+  - 本包未做实机验证，功能以官方文档为准：https://github.com/orangecoding/fredy
+  - 许可证 Apache-2.0（附加 Commons Clause 与 Attribution/Naming Clause，
+    仅禁止收费售卖，免费自用与分发不受限），随包分发，见 /package-licenses/。
